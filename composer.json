@@ -1,0 +1,17 @@
+{
+    "name": "lucas/testemontink",
+    "autoload": {
+        "psr-4": {
+            "Lucas\\Testemontink\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Cezar T.",
+            "email": "55374787+czarist@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "klein/klein": "^2.1"
+    }
+}
