@@ -11,4 +11,19 @@ abstract class Model
     {
         return Database::getInstance();
     }
+
+    public static function beginTransaction(): void
+    {
+        static::pdo()->beginTransaction();
+    }
+
+    public static function commit(): void
+    {
+        static::pdo()->commit();
+    }
+
+    public static function rollback(): void
+    {
+        static::pdo()->rollBack();
+    }
 }

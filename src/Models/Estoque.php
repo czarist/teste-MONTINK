@@ -3,7 +3,7 @@ namespace App\Models;
 
 class Estoque extends Model
 {
-    public static function atualizar($produto_id, $variacao, $quantidade)
+    public static function atualizar(int $produto_id, string $variacao, int $quantidade): void
     {
         $stmt = static::pdo()->prepare("SELECT id FROM estoque WHERE produto_id = ? AND variacao = ?");
         $stmt->execute([$produto_id, $variacao]);
@@ -18,7 +18,7 @@ class Estoque extends Model
         }
     }
 
-    public static function reduzirEstoque($produto_id, $variacao, $quantidade)
+    public static function reduzirEstoque(int $produto_id, string $variacao, int $quantidade): void
     {
         $stmt = static::pdo()->prepare("UPDATE estoque SET quantidade = quantidade - ? WHERE produto_id = ? AND variacao = ?");
         $stmt->execute([$quantidade, $produto_id, $variacao]);

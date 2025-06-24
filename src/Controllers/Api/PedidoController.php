@@ -5,7 +5,7 @@ use App\Models\Pedido;
 
 class PedidoController
 {
-    public function atualizarStatus($id, $status): void
+    public function atualizarStatus(int $id, string $status): void
     {
         if ($status === 'cancelado') {
             Pedido::excluir($id);

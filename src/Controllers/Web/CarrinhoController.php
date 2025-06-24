@@ -3,7 +3,7 @@ namespace App\Controllers\Web;
 
 class CarrinhoController
 {
-    public function ver(): void
+    public function index(): void
     {
         session_start();
         $itens = $_SESSION['carrinho'] ?? [];
