@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Web;
 
 class CarrinhoController
@@ -6,10 +7,15 @@ class CarrinhoController
     public function index(): void
     {
         session_start();
+
         $itens = $_SESSION['carrinho'] ?? [];
 
         $subtotal = 0;
-        foreach ($itens as $item) {
+
+        foreach ($itens as &$item) {
+            $item['produto_nome'] = $item['produto_nome'] ?? 'Produto';
+            $item['variacao_desc'] = $item['variacao_desc'] ?? '-';
+
             $subtotal += $item['preco'] * $item['quantidade'];
         }
 

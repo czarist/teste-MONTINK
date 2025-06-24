@@ -5,6 +5,20 @@ use App\Controllers\Api\CheckoutController as CheckoutApiController;
 use App\Controllers\Api\PedidoController as PedidoApiController;
 use App\Controllers\Api\ProdutoController as ProdutoApiController;
 use App\Controllers\Api\CupomController as CupomApiController;
+use App\Controllers\Api\VariacaoController as VariacaoController;
+
+// VARIACOES
+$router->get('/api/produto/(\d+)/variacoes', function ($produto_id) {
+    (new VariacaoController())->listar($produto_id);
+});
+
+$router->post('/api/produto/(\d+)/variacoes', function ($produto_id) {
+    (new VariacaoController())->criar($produto_id);
+});
+
+$router->delete('/api/variacoes/(\d+)', function ($variacao_id) {
+    (new VariacaoController())->deletar($variacao_id);
+});
 
 // CUPONS
 $router->post('/api/cupons', function () {

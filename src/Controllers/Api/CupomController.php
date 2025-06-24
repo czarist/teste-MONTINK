@@ -12,13 +12,12 @@ class CupomController
     public function __construct()
     {
         $this->request = new Request();
+        session_start();
+        header('Content-Type: application/json');
     }
 
     public function validar(): void
     {
-        header('Content-Type: application/json');
-        session_start();
-
         $codigo = trim($this->request->input('codigo', ''));
 
         if ($codigo === '') {
@@ -53,8 +52,6 @@ class CupomController
 
     public function salvar(): void
     {
-        header('Content-Type: application/json');
-
         $codigo = trim($this->request->input('codigo', ''));
         $valor_minimo = (float) $this->request->input('valor_minimo', 0);
         $desconto_percentual = (float) $this->request->input('desconto_percentual', 0);
@@ -72,15 +69,17 @@ class CupomController
             return;
         }
 
-        Cupom::inserir($codigo, $valor_minimo, $desconto_percentual, $validade);
-
-        echo json_encode(['success' => true]);
+        try {
+            Cupom::inserir($codigo, $valor_minimo, $desconto_percentual, $validade);
+            echo json_encode(['success' => true]);
+        } catch (\Exception $e) {
+            http_response_code(400);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
     }
 
     public function atualizar(int $id): void
     {
-        header('Content-Type: application/json');
-
         $codigo = trim($this->request->input('codigo', ''));
         $valor_minimo = (float) $this->request->input('valor_minimo', 0);
         $desconto_percentual = (float) $this->request->input('desconto_percentual', 0);
@@ -98,14 +97,18 @@ class CupomController
             return;
         }
 
-        Cupom::atualizar($id, $codigo, $valor_minimo, $desconto_percentual, $validade);
-
-        echo json_encode(['success' => true]);
+        try {
+            Cupom::atualizar($id, $codigo, $valor_minimo, $desconto_percentual, $validade);
+            echo json_encode(['success' => true]);
+        } catch (\Exception $e) {
+            http_response_code(400);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
     }
+
 
     public function excluir(int $id): void
     {
-        header('Content-Type: application/json');
         Cupom::excluir($id);
         echo json_encode(['success' => true]);
     }

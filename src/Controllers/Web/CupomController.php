@@ -8,7 +8,7 @@ class CupomController
 {
     public function index(): void
     {
-        $cupons = Cupom::listar();
+        $cupons = Cupom::listar() ?? [];
         view('cupom.index', compact('cupons'));
     }
 }

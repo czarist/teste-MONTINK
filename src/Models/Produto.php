@@ -19,6 +19,28 @@ class Produto extends Model
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public static function buscarVariacaoPorId(int $variacao_id): ?array
+    {
+        $stmt = static::pdo()->prepare("SELECT * FROM variacoes WHERE id = ?");
+        $stmt->execute([$variacao_id]);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+
+
+    public static function buscarVariacoes(int $produto_id): array
+    {
+        $stmt = static::pdo()->prepare(
+            "SELECT v.id, v.atributo, v.valor, e.quantidade as estoque
+        FROM variacoes v
+        LEFT JOIN estoque e ON v.id = e.variacao_id
+        WHERE v.produto_id = ?"
+        );
+        $stmt->execute([$produto_id]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
     public static function total(): int
     {
         $stmt = static::pdo()->query("SELECT COUNT(*) FROM produtos WHERE status = 'active'");
@@ -41,14 +63,39 @@ class Produto extends Model
 
     public static function inserir(string $nome, float $preco): int
     {
-        $stmt = static::pdo()->prepare("INSERT INTO produtos (nome, preco) VALUES (?, ?)");
-        $stmt->execute([$nome, $preco]);
-        return (int) static::pdo()->lastInsertId();
+        $pdo = static::pdo();
+
+        $stmt = $pdo->prepare("SELECT id, status FROM produtos WHERE nome = ?");
+        $stmt->execute([$nome]);
+        $produtoExistente = $stmt->fetch();
+
+        if ($produtoExistente) {
+            if ($produtoExistente['status'] == 1) {
+                throw new \Exception("Já existe um produto ativo com esse nome.");
+            } else {
+                $stmtUpdate = $pdo->prepare("UPDATE produtos SET preco = ?, status = 1 WHERE id = ?
+            ");
+                $stmtUpdate->execute([$preco, $produtoExistente['id']]);
+                return (int) $produtoExistente['id'];
+            }
+        }
+
+        $stmtInsert = $pdo->prepare("INSERT INTO produtos (nome, preco, status) VALUES (?, ?, 1)");
+        $stmtInsert->execute([$nome, $preco]);
+        return (int) $pdo->lastInsertId();
     }
 
     public static function atualizar(int $id, string $nome, float $preco): void
     {
-        $stmt = static::pdo()->prepare("UPDATE produtos SET nome = ?, preco = ? WHERE id = ?");
-        $stmt->execute([$nome, $preco, $id]);
+        $pdo = static::pdo();
+
+        $stmt = $pdo->prepare("SELECT id FROM produtos WHERE nome = ? AND id != ?");
+        $stmt->execute([$nome, $id]);
+        if ($stmt->fetch()) {
+            throw new \Exception("Já existe outro produto com esse nome.");
+        }
+
+        $stmtUpdate = $pdo->prepare("UPDATE produtos SET nome = ?, preco = ? WHERE id = ?");
+        $stmtUpdate->execute([$nome, $preco, $id]);
     }
 }

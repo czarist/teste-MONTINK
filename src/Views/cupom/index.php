@@ -106,9 +106,16 @@
         e.preventDefault();
         const formData = new FormData(this);
         fetch('/api/cupons', {
-            method: 'POST',
-            body: formData
-        }).then(() => location.reload());
+                method: 'POST',
+                body: formData
+            }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                location.reload();
+            }).catch(() => alert('Erro inesperado.'));
     });
 
     // Editar
@@ -126,9 +133,16 @@
         const id = document.getElementById('editarId').value;
         const formData = new FormData(this);
         fetch(`/api/cupons/${id}`, {
-            method: 'PUT',
-            body: formData
-        }).then(() => location.reload());
+                method: 'PUT',
+                body: formData
+            }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                location.reload();
+            }).catch(() => alert('Erro inesperado.'));
     });
 
     // Excluir
@@ -141,8 +155,15 @@
 
     document.getElementById('btnConfirmarExcluir').addEventListener('click', function() {
         fetch(`/api/cupons/${idExcluir}`, {
-            method: 'DELETE'
-        }).then(() => location.reload());
+                method: 'DELETE'
+            }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                location.reload();
+            }).catch(() => alert('Erro inesperado.'));
     });
 </script>
 

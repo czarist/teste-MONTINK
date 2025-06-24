@@ -8,6 +8,7 @@ use App\Models\Estoque;
 use App\Models\Cupom;
 use App\Core\Request;
 use Exception;
+use App\Models\Variacao;
 
 class CheckoutController
 {
@@ -16,13 +17,12 @@ class CheckoutController
     public function __construct()
     {
         $this->request = new Request();
+        session_start();
+        header('Content-Type: application/json');
     }
 
     public function finalizar(): void
     {
-        session_start();
-        header('Content-Type: application/json');
-
         $itens = $_SESSION['carrinho'] ?? [];
 
         if (empty($itens)) {
@@ -44,12 +44,11 @@ class CheckoutController
             return $carry + ($item['preco'] * $item['quantidade']);
         }, 0);
 
+        $frete = 20.00;
         if ($subtotal >= 52 && $subtotal <= 166.59) {
             $frete = 15.00;
         } elseif ($subtotal > 200) {
             $frete = 0.00;
-        } else {
-            $frete = 20.00;
         }
 
         $desconto = 0;
@@ -98,35 +97,31 @@ class CheckoutController
             );
 
             foreach ($itens as $item) {
+
                 PedidoItem::inserir(
                     $pedido_id,
                     $item['produto_id'],
-                    $item['variacao'] ?? '',
-                    $item['quantidade'],
-                    $item['preco']
+                    $item['variacao_id'] ?? null,
+                    (int) $item['quantidade'],
+                    (float) $item['preco']
                 );
-
-                Estoque::reduzirEstoque(
-                    $item['produto_id'],
-                    $item['variacao'] ?? '',
-                    $item['quantidade']
-                );
+                Estoque::reduzirEstoque((int) $item['produto_id'], (int) $item['quantidade']);
             }
+
 
             Pedido::commit();
 
-            unset($_SESSION['carrinho']);
-            unset($_SESSION['cupom_aplicado']);
+            unset($_SESSION['carrinho'], $_SESSION['cupom_aplicado']);
 
             echo json_encode([
-                'success' => true,
-                'pedido_id' => $pedido_id,
-                'subtotal' => $subtotal,
-                'frete' => $frete,
-                'desconto' => $desconto,
+                'success'    => true,
+                'pedido_id'  => $pedido_id,
+                'subtotal'   => $subtotal,
+                'frete'      => $frete,
+                'desconto'   => $desconto,
                 'percentual' => $percentual,
-                'total' => $total,
-                'cupom' => $cupom_codigo
+                'total'      => $total,
+                'cupom'      => $cupom_codigo
             ]);
         } catch (Exception $e) {
             Pedido::rollback();

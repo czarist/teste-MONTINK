@@ -45,6 +45,8 @@ class ProdutoController
             return;
         }
 
-        view('produto.show', compact('produto'));
+        $variacoes = Produto::buscarVariacoes($id);
+
+        view('produto.show', compact('produto', 'variacoes'));
     }
 }
