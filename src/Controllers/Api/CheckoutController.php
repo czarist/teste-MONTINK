@@ -8,8 +8,7 @@ use App\Models\Estoque;
 use App\Models\Cupom;
 use App\Core\Request;
 use Exception;
-use App\Models\Variacao;
-
+use App\Services\EmailService;
 class CheckoutController
 {
     private Request $request;
@@ -110,6 +109,22 @@ class CheckoutController
 
 
             Pedido::commit();
+
+
+            $emailDestino = $this->request->input('email');
+            $dadosEmail = [
+                'pedido_id'  => $pedido_id,
+                'subtotal'   => $subtotal,
+                'frete'      => $frete,
+                'desconto'   => $desconto,
+                'percentual' => $percentual,
+                'total'      => $total,
+                'cupom'      => $cupom_codigo,
+                'endereco'   => $enderecoCompleto,
+            ];
+
+            EmailService::enviarConfirmacaoPedido($emailDestino, $dadosEmail);
+
 
             unset($_SESSION['carrinho'], $_SESSION['cupom_aplicado']);
 
