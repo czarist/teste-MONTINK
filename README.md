@@ -15,8 +15,6 @@ Um sistema de e-commerce completo com gerenciamento de produtos, carrinho de com
 - [Configuração](#configuração)
 - [Estrutura do Banco de Dados](#estrutura-do-banco-de-dados)
 - [API Endpoints](#api-endpoints)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
 
 ## Funcionalidades
  
