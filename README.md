@@ -115,50 +115,74 @@ A aplicação ficará disponível em:
 
 ---
 
-## Endpoints da API
+## Documentação da API
 
 ### Carrinho
 
-POST `/api/carrinho/adicionar` - Adiciona produto ao carrinho
-POST `/api/carrinho/alterar` - Altera quantidade de item no carrinho
-POST `/api/carrinho/remover` - Remove item do carrinho
+**Adicionar item ao carrinho**
+POST `/api/carrinho/adicionar`
+
+**Alterar quantidade de item**
+POST `/api/carrinho/alterar`
+
+**Remover item do carrinho**
+POST `/api/carrinho/remover`
 
 ### Checkout
 
-POST `/api/checkout/finalizar` - Finaliza o pedido com os dados do carrinho
+**Finalizar pedido**
+POST `/api/checkout/finalizar`
 
 ### Produtos
 
-POST `/api/produto` - Cria um novo produto
-PUT `/api/produto/{id}` - Atualiza um produto
-DELETE `/api/produto/{id}` - Exclui um produto
+**Criar produto**
+POST `/api/produto`
 
-### Variações
+**Atualizar produto**
+PUT `/api/produto/{id}`
 
-GET `/api/produto/{produto_id}/variacoes` - Lista variações de um produto
-POST `/api/produto/{produto_id}/variacoes` - Cria uma nova variação
-DELETE `/api/variacoes/{variacao_id}` - Exclui uma variação
+**Excluir produto**
+DELETE `/api/produto/{id}`
+
+### Variações de Produtos
+
+**Listar variações de um produto**
+GET `/api/produto/{produto_id}/variacoes`
+
+**Criar variação**
+POST `/api/produto/{produto_id}/variacoes`
+
+**Excluir variação**
+DELETE `/api/variacoes/{variacao_id}`
 
 ### Cupons
 
-POST `/api/cupons` - Cria um cupom
-PUT `/api/cupons/{id}` - Atualiza um cupom
-DELETE `/api/cupons/{id}` - Exclui um cupom
-POST `/api/cupom/validar` - Valida cupom com base no subtotal do carrinho
+**Criar cupom**
+POST `/api/cupons`
 
-### Pedidos (Webhook de atualização)
+**Atualizar cupom**
+PUT `/api/cupons/{id}`
 
-POST `/api/webhook/pedido` - Atualiza o status do pedido
+**Excluir cupom**
+DELETE `/api/cupons/{id}`
+
+**Validar cupom**
+POST `/api/cupom/validar`
+
+### Pedidos (Webhook)
+
+**Atualizar status do pedido**
+POST `/api/webhook/pedido`
 
 ---
 
-## Tecnologias utilizadas
+## Dependências
 
-* PHP 8.x 
+* PHP 8.x
 * PDO MySQL
-* Composer 
-* Dotenv 
-* Bramus Router 
-* PHPMailer 
+* Composer
+* Dotenv
+* Bramus Router
+* PHPMailer
 
 ---
