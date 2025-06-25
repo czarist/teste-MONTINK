@@ -166,17 +166,5 @@ Acesse: http://localhost:8000
 |--------|---------------------------|------------------------------------|
 | POST   | /api/cupons/validar       | Valida um cupom de desconto        |
 
-## Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## Licença
-
-Distribuído sob licença MIT. Veja `LICENSE` para mais informações.
-
 ---
 
