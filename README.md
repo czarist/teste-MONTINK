@@ -1,6 +1,8 @@
 # ERP E-commerce PHP Puro
 
 ![PHP Version](https://img.shields.io/badge/PHP-8.x-%23777BB4)
+![Composer](https://img.shields.io/badge/Composer-2.x-orange?logo=composer)
+![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-blue?logo=mysql)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
 Um sistema de e-commerce completo com gerenciamento de produtos, carrinho de compras, cupons de desconto e processamento de pedidos.
