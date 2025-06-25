@@ -1,4 +1,4 @@
-# Sistema E-commerce PHP Puro
+# ERP E-commerce PHP Puro
 
 Aplicação backend de e-commerce, simulação carrinho de compras, cupons, variações de produtos, estoque e checkout.
 
