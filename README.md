@@ -36,8 +36,8 @@ Um sistema de e-commerce completo com gerenciamento de produtos, carrinho de com
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/erp-ecommerce-php.git
-cd erp-ecommerce-php
+git clone https://github.com/czarist/teste-MONTINK.git
+cd teste-MONTINK
 ```
 
 2. Instale as dependências:
