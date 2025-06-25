@@ -15,5 +15,10 @@
         "bramus/router": "^1.6",
         "symfony/http-foundation": "^7.3",
         "phpmailer/phpmailer": "^6.10"
+    },
+    "scripts": {
+        "migrate": "php console/migrate.php",
+        "start": "php -S localhost:8000 -t public",
+        "seed": "php console/seed.php"
     }
 }
